@@ -31,10 +31,14 @@ Lens Studio 5.24, Spectacles Interaction Kit, Spectacles UI Kit, LEAF, Blender, 
 ## Disclosures
 - New Lens built for this round. No code from the earlier round's Lens (ParSight) is used.
 - AI assistance: Claude Code was used to write the Lens scripts, the LEAF tests and the stand-in site generator. Von Descieux made the design decisions in the design brief and reviewed the Lens in preview.
+- Narration in the demo video is an AI voice (ElevenLabs).
 - The Lens does not record, identify or follow people.
 - The glasses are not rated safety eyewear.
 
-## Video script (under 3 minutes, about 2:10)
+## Video (1:58, narrated)
+Narration is an AI voice (ElevenLabs, voice "Brian"). The script below is the shot list; the spoken lines are in `~/site-zones-video/build_video.py` and match the captions.
+
+### Shot list
 | Time | On screen | Caption |
 |---|---|---|
 | 0:00 to 0:08 | Title card | Site Zones. Danger zones on the ground, before you walk into them. |
