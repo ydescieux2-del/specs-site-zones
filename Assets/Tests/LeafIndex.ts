@@ -5,6 +5,7 @@
 import {scenariosIndex} from "Leaf.lspkg/Scenarios/decorator/ScenarioIndexDecorator"
 import {ScenarioMetadata} from "Leaf.lspkg/Scenarios/scenario/ScenarioMetadata"
 import {ElectricianPathScenario} from "./ElectricianPathScenario"
+import {GuidedTourScenario} from "./GuidedTourScenario"
 import {LookAwayWarningScenario} from "./LookAwayWarningScenario"
 import {SavedZonesMatchScenario} from "./SavedZonesMatchScenario"
 import {StageDemoScenario} from "./StageDemoScenario"
@@ -26,5 +27,7 @@ export class LeafIndex extends BaseScriptComponent {
       typename: StageDemoScenario.getTypeName(),
       parameters: {role: "electrician", x: "0", z: "0", hx: "0", hz: "-1", pitch: "0"},
     },
+    // Not a test: plays the whole flow at walking pace, to watch or record.
+    {id: "guided-tour", typename: GuidedTourScenario.getTypeName()},
   ]
 }

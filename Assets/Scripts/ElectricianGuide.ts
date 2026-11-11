@@ -82,8 +82,8 @@ const PATH_Y_CM = 2.3
 const WORK_COLOR = new vec4(0.2, 1.0, 0.5, 1)
 const WORK_WIDTH_CM = 170
 const WORK_DEPTH_CM = 130
-const WORK_LABEL_Y_CM = 105
-const WORK_LABEL_SCALE = 5.2
+const WORK_LABEL_Y_CM = 115
+const WORK_LABEL_SCALE = 10
 
 const FADE_PER_SECOND = 2.6
 // Small margins so a zone, or the warning, does not flicker when he stands right on a threshold.
