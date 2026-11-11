@@ -30,9 +30,13 @@ export class GuidedTourScenario extends Scenario {
   private z = 0
   private yaw = 0 // radians; 0 faces away from the truck, positive turns right
   private pitch = 0 // radians; positive looks down
+  private beeping = false
+  private tourStart = 0
 
   async run(): Promise<void> {
     await sleep(1500)
+    this.tourStart = getTime()
+    print("TOUR_BEGIN")
     this.kit = new SiteZonesTestKit()
     this.rig = findSceneObjectByName("WearerRig").getTransform()
     this.camera = findSceneObjectByName("Camera Object").getTransform()
@@ -85,6 +89,7 @@ export class GuidedTourScenario extends Scenario {
     await this.walkTo(-420, -2380, WALK_CM_PER_S, down)
     await this.turnTo(Math.atan2(220, 220), 0.27, 0.9)
     await sleep(3000)
+    print(`TOUR_END ${(getTime() - this.tourStart).toFixed(2)}`)
   }
 
   /** Walks near the hazard, then drops a corner at each point, picks the type and saves. */
@@ -172,5 +177,15 @@ export class GuidedTourScenario extends Scenario {
     const rigRotation = wanted.multiply(this.camera.getLocalRotation().invert())
     this.rig.setWorldRotation(rigRotation)
     this.rig.setWorldPosition(eye.sub(rigRotation.multiplyVec3(this.camera.getLocalPosition())))
+    this.markBeep()
+  }
+
+  /** Prints when the warning beep starts and stops, so a recording can be given its sound afterward. */
+  private markBeep(): void {
+    const beeping = this.kit.report().beeping
+    if (beeping !== this.beeping) {
+      this.beeping = beeping
+      print(`TOUR_BEEP ${beeping ? "on" : "off"} ${(getTime() - this.tourStart).toFixed(2)}`)
+    }
   }
 }
