@@ -47,8 +47,8 @@ export class ElectricianPathScenario extends Scenario {
         length += gap
       }
     }
-    expect(length, "the path is about 17 m long").toBeGreaterThan(1600)
-    expect(length).toBeLessThan(1900)
+    expect(length, "the path is about 32 m long").toBeGreaterThan(2900)
+    expect(length).toBeLessThan(3400)
     const endToWork = Math.sqrt((last[0] - WORK.x) ** 2 + (last[1] - WORK.y) ** 2) * 100
     expect(endToWork, "the route ends at the work area").toBeLessThan(150)
 

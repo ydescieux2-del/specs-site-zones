@@ -79,8 +79,11 @@ export class GuidedTourScenario extends Scenario {
     await this.walkTo(60, -1050, WALK_CM_PER_S, down)
     await this.walkTo(-60, -1450, WALK_CM_PER_S, down)
     // Stop a few steps short of the work area and look at its outline and label.
-    await this.walkTo(-150, -1490, WALK_CM_PER_S, down)
-    await this.turnTo(Math.atan2(-50, 310), 0.27, 0.9)
+    await this.walkTo(-30, -1850, WALK_CM_PER_S, down)
+    await this.walkTo(0, -2150, WALK_CM_PER_S, down)
+    await this.walkTo(-600, -2300, WALK_CM_PER_S, down)
+    await this.walkTo(-420, -2380, WALK_CM_PER_S, down)
+    await this.turnTo(Math.atan2(220, 220), 0.27, 0.9)
     await sleep(3000)
   }
 

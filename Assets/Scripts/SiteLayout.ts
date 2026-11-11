@@ -14,7 +14,7 @@ export function sitePoint(xMeters: number, yMeters: number): vec3 {
 }
 
 /** Floor slab extents in meters (x0..x1 across, y0..y1 forward). */
-export const SLAB = {x0: -11.0, x1: 15.0, y0: -5.0, y1: 23.0}
+export const SLAB = {x0: -11.0, x1: 15.0, y0: -5.0, y1: 31.0}
 
 /** The two floor openings: center and size in meters. */
 export const GAPS = [
@@ -26,7 +26,7 @@ export const GAPS = [
 export const CRANE = {x: 9.0, y: 11.0, swingR: 5.0}
 
 /** The electrician's work area in meters. */
-export const WORK = {x: -2.0, y: 18.0}
+export const WORK = {x: -2.0, y: 26.0}
 
 /** Waypoints of the pre-laid route from the truck to the work area, in meters. */
 export const PATH: [number, number][] = [
@@ -34,7 +34,10 @@ export const PATH: [number, number][] = [
   [0.0, 6.5],
   [0.6, 10.5],
   [-0.6, 14.5],
-  [-2.0, 17.2],
+  [-0.3, 18.5],
+  [0.0, 21.5],
+  [-6.0, 23.0],
+  [-2.0, 25.2],
 ]
 
 /** Name of the node in JobSite.glb that the Lens rotates to swing the crane. */

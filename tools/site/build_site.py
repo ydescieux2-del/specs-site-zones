@@ -15,13 +15,13 @@ import sys
 import bpy
 
 # ---- layout (meters, x right, y forward from the truck) --------------------
-SLAB = dict(x0=-11.0, x1=15.0, y0=-5.0, y1=23.0, thick=0.3)
+SLAB = dict(x0=-11.0, x1=15.0, y0=-5.0, y1=31.0, thick=0.3)
 GAPS = [dict(x=-4.0, y=9.0, w=2.2, d=2.2), dict(x=3.2, y=14.0, w=1.6, d=3.0)]
 CRANE = dict(x=9.0, y=11.0, swing_r=5.0)
 TRUCK = dict(x=-3.2, y=-0.5)
-WORK = dict(x=-2.0, y=18.0)
-PATH = [(0.0, 0.5), (0.0, 6.5), (0.6, 10.5), (-0.6, 14.5), (-2.0, 17.2)]
-COLS = [(x, y) for x in (-9, -3, 3, 9) for y in (3, 9, 15, 21)]
+WORK = dict(x=-2.0, y=26.0)
+PATH = [(0.0, 0.5), (0.0, 6.5), (0.6, 10.5), (-0.6, 14.5), (-0.3, 18.5), (0.0, 21.5), (-6.0, 23.0), (-2.0, 25.2)]
+COLS = [(x, y) for x in (-9, -3, 3, 9) for y in (3, 9, 15, 21, 27)]
 LEVEL = 3.6  # floor to floor
 
 
@@ -85,12 +85,24 @@ def make_image(name, size, fn):
     return img
 
 
+def smooth_noise(np, n, cells, seed):
+    """Tileable value noise: a cells x cells grid smoothly interpolated up to n x n."""
+    g = np.random.default_rng(seed).random((cells, cells))
+    pos = np.arange(n) * cells / n
+    i0 = pos.astype(int)
+    i1 = (i0 + 1) % cells
+    f = pos - i0
+    f = f * f * (3 - 2 * f)
+    fx, fy = f[None, :], f[:, None]
+    top = g[i0][:, i0] * (1 - fx) + g[i0][:, i1] * fx
+    bottom = g[i1][:, i0] * (1 - fx) + g[i1][:, i1] * fx
+    return top * (1 - fy) + bottom * fy
+
+
 def tex_concrete(np, xx, yy, n):
     rng = np.random.default_rng(7)
-    coarse = rng.random((n // 32, n // 32))
-    coarse = np.kron(coarse, np.ones((32, 32)))
     fine = rng.random((n, n))
-    v = 0.74 + (coarse - 0.5) * 0.07 + (fine - 0.5) * 0.05
+    v = 0.76 + (smooth_noise(np, n, 5, 11) - 0.5) * 0.07 + (smooth_noise(np, n, 24, 12) - 0.5) * 0.04 + (fine - 0.5) * 0.016
     joint = (xx % (n // 2) < 3) | (yy % (n // 2) < 3)
     v = np.where(joint, v - 0.16, v)
     return np.stack([v, v * 0.99, v * 0.96], axis=-1)
@@ -106,8 +118,7 @@ def tex_stripes(np, xx, yy, n):
 
 def tex_dirt(np, xx, yy, n):
     rng = np.random.default_rng(3)
-    coarse = np.kron(rng.random((n // 16, n // 16)), np.ones((16, 16)))
-    v = 0.5 + (coarse - 0.5) * 0.14 + (rng.random((n, n)) - 0.5) * 0.08
+    v = 0.5 + (smooth_noise(np, n, 6, 21) - 0.5) * 0.16 + (smooth_noise(np, n, 40, 22) - 0.5) * 0.08 + (rng.random((n, n)) - 0.5) * 0.04
     return np.stack([v * 1.12, v * 0.95, v * 0.74], axis=-1)
 
 
@@ -143,7 +154,7 @@ def dress():
     """Everything that makes it read as a high-rise site: frame above, apron, fence, trailer, dumpster."""
     s = SLAB
     # dirt apron around the slab (strips, so the floor openings still see the lower level)
-    pad = 26.0
+    pad = 55.0
     for name, cx, cy, sx, sy in (
         ("ApronS", (s["x0"] + s["x1"]) / 2, s["y0"] - pad / 2, s["x1"] - s["x0"] + 2 * pad, pad),
         ("ApronN", (s["x0"] + s["x1"]) / 2, s["y1"] + pad / 2, s["x1"] - s["x0"] + 2 * pad, pad),
@@ -152,13 +163,13 @@ def dress():
     ):
         world_uv(box(name, cx, cy, -0.16, sx, sy, 0.3, "dirt"), 4.0)
     # structural frame for the floors above (open steel-and-slab skeleton)
-    fx0, fx1, fy0, fy1 = -10.0, 5.0, 7.0, 23.0
+    fx0, fx1, fy0, fy1 = -10.0, 5.0, 7.0, s["y1"]
     for lv in range(2, 8):
         z = LEVEL * lv
         world_uv(box(f"Floor_{lv}", (fx0 + fx1) / 2, (fy0 + fy1) / 2, z + 0.15, fx1 - fx0, fy1 - fy0, 0.3, "concrete_t"), 3.0)
         box(f"EdgeBand_{lv}", (fx0 + fx1) / 2, fy0 - 0.03, z + 0.15, fx1 - fx0, 0.06, 0.32, "orange")
         for x in (-9, -3, 3):
-            for y in (9, 15, 21):
+            for y in (9, 15, 21, 27):
                 box(f"UpCol_{lv}", x, y, z - LEVEL / 2 + 0.15, 0.5, 0.5, LEVEL - 0.3, "column")
         if lv >= 5:  # top floors still open: safety netting posts
             for k in range(6):
@@ -185,10 +196,10 @@ def dress():
     box("Dumpster", -8.0, -2.5, 0.75, 2.2, 4.2, 1.5, "dumpster")
     # rebar bundles and a cable spool near the work area
     for k in range(7):
-        cyl(f"RebarBundle_{k}", 6.2 + (k % 4) * 0.07, 18.5, 0.05 + (k // 4) * 0.07, 0.03, 5.5, "rebar", rot=(math.pi / 2, 0, 0), verts=8)
-    cyl("SpoolCore", -5.5, 19.5, 0.55, 0.3, 0.7, "wood", rot=(0, math.pi / 2, 0))
+        cyl(f"RebarBundle_{k}", 6.2 + (k % 4) * 0.07, WORK["y"] + 0.5, 0.05 + (k // 4) * 0.07, 0.03, 5.5, "rebar", rot=(math.pi / 2, 0, 0), verts=8)
+    cyl("SpoolCore", -5.5, WORK["y"] + 1.5, 0.55, 0.3, 0.7, "wood", rot=(0, math.pi / 2, 0))
     for sx in (-0.36, 0.36):
-        cyl("SpoolFlange", -5.5 + sx, 19.5, 0.55, 0.55, 0.05, "wood", rot=(0, math.pi / 2, 0))
+        cyl("SpoolFlange", -5.5 + sx, WORK["y"] + 1.5, 0.55, 0.55, 0.05, "wood", rot=(0, math.pi / 2, 0))
     # crane outriggers and striped tail
     x, y = CRANE["x"], CRANE["y"]
     for sx in (-2.3, 2.3):
@@ -232,9 +243,11 @@ def structure():
             continue
         if math.hypot(x - CRANE["x"], y - CRANE["y"]) < 3.5:
             continue
+        if math.hypot(x - WORK["x"], y - WORK["y"]) < 2.5:
+            continue
         box(f"Column_{i}", x, y, LEVEL / 2, 0.6, 0.6, LEVEL, "column")
     # deck above, only over the back half so the truck end reads as open air
-    box("Deck", (s["x0"] + s["x1"]) / 2 - 4, 15, LEVEL + 0.15, s["x1"] - s["x0"] - 8, 16, 0.3, "deck")
+    box("Deck", (s["x0"] + s["x1"]) / 2 - 4, (7 + s["y1"]) / 2, LEVEL + 0.15, s["x1"] - s["x0"] - 8, s["y1"] - 7, 0.3, "deck")
     # back wall with the electrician's panel
     box("BackWall", -2, s["y1"] - 0.1, LEVEL / 2, 14, 0.2, LEVEL, "wall")
     box("Panel", WORK["x"], WORK["y"] + 1.35, 1.5, 0.9, 0.18, 1.2, "panel")
@@ -253,7 +266,7 @@ def structure():
         box(f"Blocks_{k}", x, y, 0.5, 1.0, 0.8, 0.7, "block")
     for k in range(5):
         cyl(f"Pipe_{k}", -7.5 + (k % 3) * 0.17, 5.0, 0.09 + (k // 3) * 0.16, 0.08, 4.0, "steel", rot=(math.pi / 2, 0, 0), verts=12)
-    for k, (x, y) in enumerate(((1.6, 2.0), (-1.6, 2.0), (2.0, 19.5))):
+    for k, (x, y) in enumerate(((1.6, 2.0), (-1.6, 2.0), (2.0, WORK["y"] + 1.5))):
         cyl(f"ConeBase_{k}", x, y, 0.02, 0.2, 0.04, "orange", verts=4)
         bpy.ops.mesh.primitive_cone_add(vertices=14, radius1=0.14, radius2=0.03, depth=0.6, location=(x, y, 0.34))
         c = bpy.context.object
@@ -273,6 +286,21 @@ def truck():
     for wx in (-0.95, 0.95):
         for wy in (-1.6, 1.7):
             cyl("Wheel", x + wx, y + wy, 0.38, 0.38, 0.28, "tire", rot=(0, math.pi / 2, 0), parent=root)
+            cyl("WheelHub", x + wx * 1.08, y + wy, 0.38, 0.17, 0.05, "steel", rot=(0, math.pi / 2, 0), verts=12, parent=root)
+            box("WheelArch", x + wx * 0.99, y + wy, 0.72, 0.1, 0.9, 0.12, "white", parent=root)
+    box("FrontBumper", x, y + 2.6, 0.55, 1.95, 0.18, 0.22, "steel", parent=root)
+    box("RearBumper", x, y - 2.55, 0.5, 1.95, 0.16, 0.2, "steel", parent=root)
+    for hx in (-0.65, 0.65):
+        box("Headlight", x + hx, y + 2.57, 0.86, 0.3, 0.05, 0.16, "glass", parent=root)
+        box("Taillight", x + hx, y - 2.5, 0.88, 0.22, 0.04, 0.14, "orange", parent=root)
+    box("Grille", x, y + 2.57, 0.7, 1.0, 0.04, 0.16, "steel", parent=root)
+    for mx in (-1.08, 1.08):
+        box("Mirror", x + mx, y + 1.2, 1.5, 0.12, 0.08, 0.22, "steel", parent=root)
+    box("ToolBox", x, y - 1.5, 1.2, 1.5, 0.5, 0.35, "steel", parent=root)
+    box("Beacon", x, y + 0.5, 1.78, 0.26, 0.26, 0.14, "orange", parent=root)
+    for px in (-0.8, 0.8):
+        for py in (-1.8, 0.4):
+            box("RackPost", x + px, y + py, 1.55, 0.05, 0.05, 0.4, "steel", parent=root)
 
 
 def crane():
@@ -295,8 +323,41 @@ def crane():
     cyl("CraneCable", x + 0.3, tip_y, tip_z - 3.5, 0.02, 7.0, "steel", verts=8, parent=upper)
     box("CraneHook", x + 0.3, tip_y, tip_z - 7.2, 0.3, 0.3, 0.5, "orange", parent=upper)
     box("CraneLoad", x + 0.3, tip_y, tip_z - 8.2, 2.4, 0.4, 0.4, "steel", parent=upper)
+    # boom cross-bracing, a stack and window frames so it stops reading as a plain box
+    for k in range(1, 14):
+        t = boom_len * k / 14
+        c = box("BoomBrace", x + 0.3, y + 1.5 + math.cos(ang) * t, 1.8 + math.sin(ang) * t, 0.9, 0.05, 0.05, "craneyellow", parent=upper)
+        c.rotation_euler = (ang, 0, 0)
+    for side in (-1.3, 1.3):
+        box("HouseWindow", x + side * 1.005, y - 0.6, 2.1, 0.03, 1.4, 0.55, "glass", parent=upper)
+        box("HouseStripe", x + side * 1.005, y - 0.6, 1.5, 0.03, 4.1, 0.12, "orange", parent=upper)
+    cyl("Exhaust", x + 0.8, y - 2.0, 3.15, 0.1, 0.9, "steel", verts=10, parent=upper)
+    for k in range(3):
+        box("CounterBlock", x, y - 3.2, 2.5 + k * 0.01, 2.6 - k * 0.1, 1.0, 0.18, "counter", parent=upper)
+    box("CabRoofLight", x - 0.85, y + 1.3, 2.88, 0.3, 0.3, 0.12, "orange", parent=upper)
     for sx in (-1.25, 1.25):  # hazard stripes on the tail, the part that sweeps people
         box("CraneStripe", x + sx * 1.13, y - 3.2, 1.7, 0.03, 1.2, 0.5, "orange", parent=upper)
+
+
+def sky():
+    """A large inside-out dome with a soft blue glow, so the site has a horizon instead of a void."""
+    import bmesh
+    bpy.ops.mesh.primitive_uv_sphere_add(segments=32, ring_count=16, radius=70.0, location=(2.0, 13.0, 0.0))
+    o = bpy.context.object
+    o.name = "Sky"
+    bm = bmesh.new()
+    bm.from_mesh(o.data)
+    bmesh.ops.reverse_faces(bm, faces=bm.faces)
+    bm.to_mesh(o.data)
+    bm.free()
+    m = bpy.data.materials.new("sky")
+    m.use_nodes = True
+    m.use_backface_culling = False  # exports as doubleSided, so the dome shows from inside whatever the winding
+    b = m.node_tree.nodes["Principled BSDF"]
+    b.inputs["Base Color"].default_value = (0.0, 0.0, 0.0, 1)
+    b.inputs["Emission Color"].default_value = (0.5, 0.72, 0.95, 1)
+    b.inputs["Emission Strength"].default_value = 1.0
+    o.data.materials.append(m)
 
 
 def build():
@@ -322,6 +383,7 @@ def build():
     truck()
     crane()
     dress()
+    sky()
     for o in bpy.data.objects:
         if o.type == "MESH" and o.name.startswith(("Slab_", "Column_", "Deck", "BackWall")):
             o.data.materials.clear()
