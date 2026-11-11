@@ -1,4 +1,4 @@
-# Devpost entry draft (for Von to review; not yet submitted)
+# Devpost entry text
 
 ## Name
 Site Zones
@@ -49,9 +49,3 @@ Narration is an AI voice (ElevenLabs, voice "Brian"). The script below is the sh
 | 1:30 to 1:50 | Drifts toward the floor opening, beep, arrow, then looks at it | If he drifts toward one while looking away: a beep and an arrow. Looking at it stops both. |
 | 1:50 to 2:05 | Arrives at the work area | His work area, reached without a surprise. |
 | 2:05 to 2:15 | End card | Site Zones reinforces the barriers, covers and signs OSHA requires. It does not replace them. |
-
-## Still to do by Von
-- Join the hackathon on Devpost (not joined yet).
-- Upload the video to YouTube as public (only after saying "send it").
-- Make the repo public (only after the secret scan is clean).
-- Read and accept the rules, then Submit.
