@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "skills": {
+    "plan-lens": {
+      "source": "challengepost/learn-specs",
+      "sourceType": "github",
+      "skillPath": "skills/plan-lens/SKILL.md",
+      "computedHash": "757347a719a7bbe28def311d04b30ee307fc4ca79c7ccf20053079a599988bfe"
+    }
+  }
+}
