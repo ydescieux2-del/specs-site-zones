@@ -34,3 +34,9 @@ __pycache__/
 # Internal session notes (repo may go public for judging)
 MASTER_STATUS.md
 AGENT_LEARNINGS.md
+
+# Added by Lens Studio (LEAF plugin)
+leaf_plugin_settings.json
+
+# Scene snapshot written by the Lens Studio agent tools
+.virtual-scene.json

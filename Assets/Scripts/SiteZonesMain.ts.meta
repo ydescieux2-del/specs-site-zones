@@ -1,0 +1,110 @@
+- !<AssetImportMetadata/2a6e79d1-b270-4aa9-a418-7af6e797c951>
+  ImportedAssetIds:
+    TypeScriptAsset: !<reference> bb095cce-c376-420e-acc7-cb3443520b4f
+  ImporterName: TypeScriptAssetImporter
+  PrimaryAsset: !<reference> bb095cce-c376-420e-acc7-cb3443520b4f
+  PackageType: NotAPackage
+  LegacyPackagePolicy: ~
+  ExtraData:
+    {}
+  AssetDataMap:
+    TypeScriptAsset: !<own> 47fb25ad-078c-44c4-91df-90fbc9b43ca9
+  DependentFiles:
+    []
+  ImporterSettings: !<AssetImporterSettings>
+    {}
+  CompressionSettings: !<own> 00000000-0000-0000-0000-000000000000
+- !<TypeScriptAssetData/47fb25ad-078c-44c4-91df-90fbc9b43ca9>
+  SvgIcon: ""
+  SetupScript:
+    code: ""
+  Description: ""
+  VersionMajor: 0
+  VersionMinor: 0
+  VersionPatch: 0
+  VersionPrerelease: ""
+  UpdateOrder: 0
+  ComponentUid: e3870210-fd23-425f-b69e-c6881b6fdc86
+  ExportUid: 00000000-0000-0000-0000-000000000000
+  PackagePolicy: CanBeUnpacked
+  ScriptInputsHidden:
+    appearDistanceCm: false
+    beepVolume: false
+    craneSwingDegrees: false
+    craneSwingSeconds: false
+    dangerDistanceCm: false
+    eyeHeightCm: false
+    groundTarget: false
+    jobSite: false
+    lookAwayDegrees: false
+    markersRoot: false
+    pathAnchor: false
+    roleSwitch: false
+    siteWorld: false
+    startRole: false
+    supervisorPanel: false
+    warnDistanceCm: false
+    workArea: false
+    workAreaDistanceCm: false
+    zonesRoot: false
+  ScriptTypesHidden:
+    {}
+  ReadMe: !<reference> 00000000-0000-0000-0000-000000000000
+  DeclarationFile: !<reference> 00000000-0000-0000-0000-000000000000
+  Tags:
+    []
+  Attachments:
+    []
+  DefaultScriptInputs:
+    - siteWorld: !<reference.SceneObject> 00000000-0000-0000-0000-000000000000
+      jobSite: !<reference.SceneObject> 00000000-0000-0000-0000-000000000000
+      pathAnchor: !<reference.SceneObject> 00000000-0000-0000-0000-000000000000
+      workArea: !<reference.SceneObject> 00000000-0000-0000-0000-000000000000
+      zonesRoot: !<reference.SceneObject> 00000000-0000-0000-0000-000000000000
+      markersRoot: !<reference.SceneObject> 00000000-0000-0000-0000-000000000000
+      groundTarget: !<reference.SceneObject> 00000000-0000-0000-0000-000000000000
+      roleSwitch: !<MappingBased.AssignableType_1> 00000000-0000-0000-0000-000000000000
+      supervisorPanel: !<MappingBased.AssignableType_2> 00000000-0000-0000-0000-000000000000
+      startRole: supervisor
+      eyeHeightCm: !<float> 165.000000
+      appearDistanceCm: !<float> 500.000000
+      dangerDistanceCm: !<float> 100.000000
+      warnDistanceCm: !<float> 200.000000
+      lookAwayDegrees: !<float> 20.000000
+      workAreaDistanceCm: !<float> 500.000000
+      beepVolume: !<float> 1.000000
+      craneSwingDegrees: !<float> 55.000000
+      craneSwingSeconds: !<float> 28.000000
+  ScriptTypes:
+    -
+      {}
+  InputLines:
+    - '// @ui {"widget":"label", "label":"Site Zones"}'
+    - '// @ui {"widget":"separator"}'
+    - '// @ui {"widget":"group_start", "label":"Scene"}'
+    - '// @input SceneObject siteWorld {"hint":"Root of the site. Its origin is on the floor beside the truck, where the wearer starts"}'
+    - "// @input SceneObject jobSite {\"hint\":\"The stand-in job site model (JobSite.glb). Only the crane's upper section is animated\"}"
+    - '// @input SceneObject pathAnchor {"hint":"Parent for the path chevrons"}'
+    - "// @input SceneObject workArea {\"hint\":\"Placed at the electrician's work area. The work area outline and label are built under it\"}"
+    - "// @input SceneObject zonesRoot {\"hint\":\"Parent for the zones shown in the supervisor's view\"}"
+    - "// @input SceneObject markersRoot {\"hint\":\"Parent for the supervisor's corner markers\"}"
+    - '// @input SceneObject groundTarget {"hint":"Centered on the floor slab. Becomes the surface the supervisor pinches to drop corners"}'
+    - '// @input AssignableType_1 roleSwitch {"hint":"The Supervisor / Electrician switch panel"}'
+    - "// @input AssignableType_2 supervisorPanel {\"hint\":\"The supervisor's panel\"}"
+    - '// @ui {"widget":"group_end"}'
+    - '// @ui {"widget":"group_start", "label":"Wearer"}'
+    - '// @input string startRole = "supervisor" {"hint":"Which view the Lens opens in. The supervisor goes first, because zones have to be marked before they can be shown", "widget":"combobox", "values":[{"label":"Supervisor", "value":"supervisor"}, {"label":"Electrician", "value":"electrician"}]}'
+    - "// @input float eyeHeightCm = 165 {\"hint\":\"Height of the wearer's eyes above the floor, in cm. The site is placed this far below the glasses\", \"widget\":\"slider\", \"min\":120, \"max\":200, \"step\":1}"
+    - '// @ui {"widget":"group_end"}'
+    - '// @ui {"widget":"group_start", "label":"When things show"}'
+    - '// @input float appearDistanceCm = 500 {"hint":"A zone appears when the electrician is this close to its edge, in cm", "widget":"slider", "min":100, "max":1000, "step":10}'
+    - '// @input float dangerDistanceCm = 100 {"hint":"A zone turns from yellow to red this close to its edge, or inside it, in cm", "widget":"slider", "min":0, "max":300, "step":5}'
+    - "// @input float warnDistanceCm = 200 {\"hint\":\"The beep and arrow can start this close to a zone's edge, in cm\", \"widget\":\"slider\", \"min\":50, \"max\":500, \"step\":5}"
+    - '// @input float lookAwayDegrees = 20 {"hint":"The beep and arrow start when the zone is this many degrees from the center of his view", "widget":"slider", "min":5, "max":60, "step":1}'
+    - '// @input float workAreaDistanceCm = 500 {"hint":"The work area marker appears this close to the end of the path, in cm", "widget":"slider", "min":100, "max":1000, "step":10}'
+    - '// @input float beepVolume = 1 {"hint":"Loudness of the warning beep, 0 to 1", "widget":"slider", "min":0, "max":1, "step":0.05}'
+    - '// @ui {"widget":"group_end"}'
+    - '// @ui {"widget":"group_start", "label":"Crane stand-in"}'
+    - "// @input float craneSwingDegrees = 55 {\"hint\":\"How far the crane's upper section swings to each side, in degrees\", \"widget\":\"slider\", \"min\":0, \"max\":180, \"step\":1}"
+    - '// @input float craneSwingSeconds = 28 {"hint":"Seconds for one full swing there and back", "widget":"slider", "min":5, "max":120, "step":1}'
+    - '// @ui {"widget":"group_end"}'

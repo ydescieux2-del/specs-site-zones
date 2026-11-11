@@ -1,0 +1,91 @@
+- !<AssetImportMetadata/42122d72-c617-4392-8834-7741a1370237>
+  ImportedAssetIds:
+    TypeScriptAsset: !<reference> 26b0a293-eb5d-463f-b2be-5a4619205f6f
+  ImporterName: TypeScriptAssetImporter
+  PrimaryAsset: !<reference> 26b0a293-eb5d-463f-b2be-5a4619205f6f
+  PackageType: NotAPackage
+  LegacyPackagePolicy: ~
+  ExtraData:
+    {}
+  AssetDataMap:
+    TypeScriptAsset: !<own> 4e8aaf7f-651c-4aed-a386-244f079eb214
+  DependentFiles:
+    []
+  ImporterSettings: !<AssetImporterSettings>
+    {}
+  CompressionSettings: !<own> 00000000-0000-0000-0000-000000000000
+- !<TypeScriptAssetData/4e8aaf7f-651c-4aed-a386-244f079eb214>
+  SvgIcon: ""
+  SetupScript:
+    code: ""
+  Description: ""
+  VersionMajor: 0
+  VersionMinor: 0
+  VersionPatch: 0
+  VersionPrerelease: ""
+  UpdateOrder: 0
+  ComponentUid: ae1fa8e0-54ce-45f4-ae37-51915ce0a5ee
+  ExportUid: 00000000-0000-0000-0000-000000000000
+  PackagePolicy: CanBeUnpacked
+  ScriptInputsHidden:
+    borderColor: false
+    buttonColor: false
+    buttonHeightCm: false
+    buttonHoverColor: false
+    buttonPressColor: false
+    contentWidthCm: false
+    dropBelowEyeCm: false
+    followDistanceCm: false
+    gapCm: false
+    plateColor: false
+    recenterDegrees: false
+    recenterDistanceCm: false
+    textColor: false
+    title: false
+  ScriptTypesHidden:
+    {}
+  ReadMe: !<reference> 00000000-0000-0000-0000-000000000000
+  DeclarationFile: !<reference> 00000000-0000-0000-0000-000000000000
+  Tags:
+    []
+  Attachments:
+    []
+  DefaultScriptInputs:
+    - contentWidthCm: !<float> 36.000000
+      buttonHeightCm: 5.500000
+      gapCm: 1.300000
+      title: Mark a no-go zone
+      textColor: !<Vec4> {x: 1.000000, y: 1.000000, z: 1.000000, w: 1.000000}
+      plateColor: !<Vec4> {x: 0.600000, y: 0.700000, z: 0.820000, w: 0.420000}
+      borderColor: !<Vec4> {x: 1.000000, y: 1.000000, z: 1.000000, w: 0.950000}
+      buttonColor: !<Vec4> {x: 0.200000, y: 0.560000, z: 1.000000, w: 1.000000}
+      buttonHoverColor: !<Vec4> {x: 0.450000, y: 0.760000, z: 1.000000, w: 1.000000}
+      buttonPressColor: !<Vec4> {x: 0.720000, y: 0.900000, z: 1.000000, w: 1.000000}
+      followDistanceCm: !<float> 100.000000
+      dropBelowEyeCm: !<float> 14.000000
+      recenterDegrees: !<float> 30.000000
+      recenterDistanceCm: !<float> 40.000000
+  ScriptTypes:
+    -
+      {}
+  InputLines:
+    - '// @ui {"widget":"label", "label":"Supervisor panel"}'
+    - '// @ui {"widget":"separator"}'
+    - '// @ui {"widget":"group_start", "label":"Layout"}'
+    - "// @input float contentWidthCm = 36 {\"hint\":\"Width of the panel's content, in cm\", \"widget\":\"slider\", \"min\":24, \"max\":50, \"step\":0.5}"
+    - '// @input float buttonHeightCm = 5.5 {"hint":"Height of each button, in cm. Keep it at 5 or more so it is easy to pinch", "widget":"slider", "min":4, "max":10, "step":0.5}'
+    - '// @input float gapCm = 1.3 {"hint":"Gap between rows and around the panel edge, in cm", "widget":"slider", "min":0.5, "max":4, "step":0.1}'
+    - '// @input string title = "Mark a no-go zone" {"hint":"Heading at the top of the panel"}'
+    - '// @input vec4 textColor = {1,1,1,1} {"hint":"Color of the text. Keep it light: dark text disappears on the glasses", "widget":"color"}'
+    - '// @input vec4 plateColor = {0.2,0.36,0.56,0.74} {"hint":"Fill of the panel behind the buttons. Keep it mid-bright: dark fills are see-through on the glasses, and white text needs something to sit on", "widget":"color"}'
+    - '// @input vec4 borderColor = {1,1,1,0.95} {"hint":"Border of the panel and of each button", "widget":"color"}'
+    - '// @input vec4 buttonColor = {0.2,0.56,1,1} {"hint":"Button fill at rest", "widget":"color"}'
+    - '// @input vec4 buttonHoverColor = {0.45,0.76,1,1} {"hint":"Button fill while it is aimed at", "widget":"color"}'
+    - '// @input vec4 buttonPressColor = {0.72,0.9,1,1} {"hint":"Button fill while it is pinched", "widget":"color"}'
+    - '// @ui {"widget":"group_end"}'
+    - '// @ui {"widget":"group_start", "label":"Follow"}'
+    - '// @input float followDistanceCm = 100 {"hint":"How far in front of the supervisor the panel floats, in cm", "widget":"slider", "min":60, "max":150, "step":1}'
+    - "// @input float dropBelowEyeCm = 14 {\"hint\":\"How far below eye level the panel's center sits, in cm\", \"widget\":\"slider\", \"min\":0, \"max\":40, \"step\":1}"
+    - '// @input float recenterDegrees = 30 {"hint":"The panel stays put until the supervisor turns this many degrees away from it, then catches up", "widget":"slider", "min":10, "max":60, "step":1}'
+    - '// @input float recenterDistanceCm = 40 {"hint":"The panel also catches up when the supervisor has walked this far from where it expects him, in cm", "widget":"slider", "min":10, "max":100, "step":1}'
+    - '// @ui {"widget":"group_end"}'

@@ -1,0 +1,77 @@
+- !<AssetImportMetadata/adc81bcf-0a83-488b-9134-162e6ffcc822>
+  ImportedAssetIds:
+    TypeScriptAsset: !<reference> 6896de74-5a26-4a93-a2c5-20a2b18e8a0a
+  ImporterName: TypeScriptAssetImporter
+  PrimaryAsset: !<reference> 6896de74-5a26-4a93-a2c5-20a2b18e8a0a
+  PackageType: NotAPackage
+  LegacyPackagePolicy: ~
+  ExtraData:
+    {}
+  AssetDataMap:
+    TypeScriptAsset: !<own> f1714bd6-4d95-4ca9-ba56-4c853b34950e
+  DependentFiles:
+    []
+  ImporterSettings: !<AssetImporterSettings>
+    {}
+  CompressionSettings: !<own> 00000000-0000-0000-0000-000000000000
+- !<TypeScriptAssetData/f1714bd6-4d95-4ca9-ba56-4c853b34950e>
+  SvgIcon: ""
+  SetupScript:
+    code: ""
+  Description: ""
+  VersionMajor: 0
+  VersionMinor: 0
+  VersionPatch: 0
+  VersionPrerelease: ""
+  UpdateOrder: 0
+  ComponentUid: 655c2e70-43eb-4d12-8ecc-3b04880cac86
+  ExportUid: 00000000-0000-0000-0000-000000000000
+  PackagePolicy: CanBeUnpacked
+  ScriptInputsHidden:
+    borderColor: false
+    buttonColor: false
+    buttonHeightCm: false
+    buttonHoverColor: false
+    buttonPressColor: false
+    buttonWidthCm: false
+    caption: false
+    gapCm: false
+    plateColor: false
+    textColor: false
+  ScriptTypesHidden:
+    {}
+  ReadMe: !<reference> 00000000-0000-0000-0000-000000000000
+  DeclarationFile: !<reference> 00000000-0000-0000-0000-000000000000
+  Tags:
+    []
+  Attachments:
+    []
+  DefaultScriptInputs:
+    - buttonWidthCm: !<float> 15.000000
+      buttonHeightCm: 5.500000
+      gapCm: 1.400000
+      caption: Stand-in for two pairs of glasses. Viewing as
+      textColor: !<Vec4> {x: 1.000000, y: 1.000000, z: 1.000000, w: 1.000000}
+      plateColor: !<Vec4> {x: 0.600000, y: 0.700000, z: 0.820000, w: 0.420000}
+      borderColor: !<Vec4> {x: 1.000000, y: 1.000000, z: 1.000000, w: 0.950000}
+      buttonColor: !<Vec4> {x: 0.200000, y: 0.560000, z: 1.000000, w: 1.000000}
+      buttonHoverColor: !<Vec4> {x: 0.450000, y: 0.760000, z: 1.000000, w: 1.000000}
+      buttonPressColor: !<Vec4> {x: 0.720000, y: 0.900000, z: 1.000000, w: 1.000000}
+  ScriptTypes:
+    -
+      {}
+  InputLines:
+    - '// @ui {"widget":"label", "label":"Supervisor / Electrician switch"}'
+    - '// @ui {"widget":"separator"}'
+    - '// @ui {"widget":"group_start", "label":"Settings"}'
+    - '// @input float buttonWidthCm = 15 {"hint":"Width of each of the two buttons, in cm", "widget":"slider", "min":8, "max":24, "step":0.5}'
+    - '// @input float buttonHeightCm = 5.5 {"hint":"Height of each button, in cm. Keep it at 5 or more so it is easy to pinch", "widget":"slider", "min":4, "max":10, "step":0.5}'
+    - '// @input float gapCm = 1.4 {"hint":"Gap between the buttons and around the panel edge, in cm", "widget":"slider", "min":0.5, "max":4, "step":0.1}'
+    - '// @input string caption = "Viewing as" {"hint":"Line above the buttons. The current view is added after it. The switch stands in for two pairs of glasses"}'
+    - '// @input vec4 textColor = {1,1,1,1} {"hint":"Color of the text. Keep it light: dark text disappears on the glasses", "widget":"color"}'
+    - '// @input vec4 plateColor = {0.2,0.36,0.56,0.74} {"hint":"Fill of the panel behind the buttons. Keep it mid-bright: dark fills are see-through on the glasses, and white text needs something to sit on", "widget":"color"}'
+    - '// @input vec4 borderColor = {1,1,1,0.95} {"hint":"Border of the panel and of each button", "widget":"color"}'
+    - '// @input vec4 buttonColor = {0.2,0.56,1,1} {"hint":"Button fill at rest", "widget":"color"}'
+    - '// @input vec4 buttonHoverColor = {0.45,0.76,1,1} {"hint":"Button fill while it is aimed at", "widget":"color"}'
+    - '// @input vec4 buttonPressColor = {0.72,0.9,1,1} {"hint":"Button fill while it is pinched", "widget":"color"}'
+    - '// @ui {"widget":"group_end"}'
